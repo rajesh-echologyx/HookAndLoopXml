@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ &mdash; Bazeni &amp; Spa &mdash; Tehnička kartoteka</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@600;700;800&family=Archivo:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --deep:#0B2E33;
+  --teal:#0F4C5C;
+  --teal-2:#156374;
+  --sand:#E8E2D0;
+  --card:#FBF9F4;
+  --ink:#0B2E33;
+  --ink-soft:#3F5C61;
+  --chlorine:#FF6B35;
+  --line:rgba(11,46,51,0.14);
+  --line-soft:rgba(11,46,51,0.08);
+  --radius:2px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--sand);
+  color:var(--ink);
+  font-family:'Archivo',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+}
+
+/* ===== background texture: faint ruled-grid, like spec paper ===== */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background-image:
+    linear-gradient(var(--line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size:100% 28px, 64px 100%;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.5;
+}
+
+/* ===== HEADER / MASTHEAD ===== */
+.masthead{
+  position:relative;
+  z-index:2;
+  background:var(--deep);
+  color:var(--sand);
+  padding:46px 5vw 38px;
+  border-bottom:6px solid var(--chlorine);
+  overflow:hidden;
+}
+.masthead::after{
+  content:"";
+  position:absolute;
+  right:-6%;
+  top:-30%;
+  width:520px; height:520px;
+  border-radius:50%;
+  border:1px solid rgba(232,226,208,0.18);
+  box-shadow: 0 0 0 60px rgba(232,226,208,0.04) inset, 0 0 0 120px rgba(232,226,208,0.03) inset;
+}
+.masthead-row{
+  display:flex; justify-content:space-between; align-items:flex-start; gap:24px;
+  position:relative; z-index:1;
+  max-width:1180px; margin:0 auto;
+}
+.eyebrow{
+  font-family:'Spline Sans Mono',monospace;
+  font-size:11.5px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--chlorine);
+  margin:0 0 14px;
+  display:flex; align-items:center; gap:10px;
+}
+.eyebrow::before{content:"";width:7px;height:7px;background:var(--chlorine);border-radius:50%;display:inline-block;}
+h1{
+  font-family:'Archivo Expanded',sans-serif;
+  font-weight:800;
+  font-size:clamp(34px, 4.6vw, 60px);
+  line-height:0.98;
+  margin:0 0 14px;
+  letter-spacing:-0.01em;
+  max-width:760px;
+}
+h1 em{
+  font-style:normal;
+  color:var(--chlorine);
+}
+.masthead-sub{
+  font-size:15.5px;
+  color:rgba(232,226,208,0.78);
+  max-width:540px;
+  line-height:1.55;
+  margin:0;
+}
+.masthead-meta{
+  font-family:'Spline Sans Mono',monospace;
+  font-size:12px;
+  color:rgba(232,226,208,0.62);
+  text-align:right;
+  line-height:1.9;
+  white-space:nowrap;
+  padding-top:6px;
+}
+.masthead-meta b{color:var(--sand); font-weight:600;}
+.legend{
+  display:flex; gap:22px; flex-wrap:wrap;
+  margin-top:28px;
+  position:relative; z-index:1;
+  max-width:1180px; margin-left:auto; margin-right:auto;
+  font-family:'Spline Sans Mono',monospace;
+  font-size:11.5px;
+  color:rgba(232,226,208,0.65);
+}
+.legend span{display:flex; align-items:center; gap:7px;}
+.swatch{width:11px;height:11px;border-radius:50%;display:inline-block;}
+.swatch.scp{background:#7FB8C4;}
+.swatch.flu{background:#FF6B35;}
+
+/* ===== SEARCH BAR ===== */
+.toolbar{
+  position:sticky; top:0; z-index:30;
+  background:var(--card);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 2px 14px rgba(11,46,51,0.06);
+}
+.toolbar-inner{
+  max-width:1180px; margin:0 auto;
+  padding:16px 5vw;
+  display:flex; gap:16px; align-items:center;
+}
+.search-wrap{
+  flex:1;
+  position:relative;
+  max-width:420px;
+}
+.search-wrap svg{position:absolute; left:13px; top:50%; transform:translateY(-50%); opacity:0.45; pointer-events:none;}
+#search{
+  width:100%;
+  font-family:'Archivo',sans-serif;
+  font-size:14.5px;
+  padding:11px 14px 11px 38px;
+  border:1.5px solid var(--line);
+  border-radius:var(--radius);
+  background:#fff;
+  color:var(--ink);
+  outline:none;
+  transition:border-color .15s ease;
+}
+#search:focus{border-color:var(--teal-2);}
+#search::placeholder{color:#9CA9AB;}
+.result-count{
+  font-family:'Spline Sans Mono',monospace;
+  font-size:12px;
+  color:var(--ink-soft);
+  white-space:nowrap;
+}
+.result-count b{color:var(--teal);}
+.src-filters{
+  display:flex; gap:8px; margin-left:auto;
+}
+.src-pill{
+  font-family:'Spline Sans Mono',monospace;
+  font-size:11.5px;
+  letter-spacing:.02em;
+  padding:7px 12px;
+  border:1.3px solid var(--line);
+  border-radius:20px;
+  background:#fff;
+  color:var(--ink-soft);
+  cursor:pointer;
+  user-select:none;
+  transition:all .15s ease;
+  white-space:nowrap;
+}
+.src-pill:hover{border-color:var(--teal-2);}
+.src-pill.active{background:var(--deep); color:var(--sand); border-color:var(--deep);}
+
+/* ===== LAYOUT: tab-rail + content ===== */
+.layout{
+  max-width:1180px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:230px 1fr;
+  gap:0;
+  position:relative; z-index:1;
+}
+@media (max-width:880px){
+  .layout{grid-template-columns:1fr;}
+}
+
+/* tab rail - mimics the catalog's own page-edge chapter tabs */
+.tab-rail{
+  padding:30px 0 60px 5vw;
+  position:relative;
+}
+@media (max-width:880px){
+  .tab-rail{
+    padding:18px 5vw;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    position:sticky;
+    top:65px;
+    background:var(--sand);
+    z-index:20;
+    border-bottom:1px solid var(--line);
+  }
+}
+.tab-rail-title{
+  font-family:'Spline Sans Mono',monospace;
+  font-size:10.5px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:0 0 14px;
+  padding-left:14px;
+}
+@media (max-width:880px){ .tab-rail-title{display:none;} }
+
+.tab{
+  display:block;
+  width:100%;
+  text-align:left;
+  font-family:'Archivo',sans-serif;
+  font-weight:600;
+  font-size:13.5px;
+  color:var(--ink);
+  background:transparent;
+  border:none;
+  border-left:4px solid transparent;
+  padding:10px 14px;
+  cursor:pointer;
+  position:relative;
+  line-height:1.3;
+  transition:all .14s ease;
+  white-space:normal;
+}
+@media (max-width:880px){
+  .tab{
+    width:auto;
+    white-space:nowrap;
+    border-left:none;
+    border-bottom:3px solid transparent;
+    background:#fff;
+    border-radius:30px;
+    padding:8px 16px;
+    font-size:12.5px;
+  }
+}
+.tab .n{
+  font-family:'Spline Sans Mono',monospace;
+  font-size:10.5px;
+  color:var(--ink-soft);
+  margin-left:6px;
+}
+.tab:hover{background:rgba(15,76,92,0.06); border-left-color:var(--teal-2);}
+.tab.active{
+  background:var(--teal);
+  color:#fff;
+  border-left-color:var(--chlorine);
+}
+.tab.active .n{color:rgba(255,255,255,0.7);}
+@media (max-width:880px){
+  .tab.active{border-left:none; border-bottom-color:var(--chlorine);}
+}
+
+/* content column */
+.content{
+  padding:30px 5vw 80px 28px;
+  min-height:60vh;
+}
+@media (max-width:880px){ .content{padding:24px 5vw 70px;} }
+
+.section-head{
+  display:flex; align-items:baseline; gap:14px;
+  margin-bottom:22px;
+  padding-bottom:14px;
+  border-bottom:1.5px solid var(--line);
+}
+.section-head h2{
+  font-family:'Archivo Expanded',sans-serif;
+  font-weight:800;
+  font-size:24px;
+  margin:0;
+  color:var(--deep);
+}
+.section-head .count{
+  font-family:'Spline Sans Mono',monospace;
+  font-size:12px;
+  color:var(--ink-soft);
+}
+
+.faq-list{display:flex; flex-direction:column; gap:10px;}
+
+.faq-item{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  transition:border-color .15s ease;
+}
+.faq-item[open]{border-color:var(--teal-2);}
+.faq-item summary{
+  list-style:none;
+  cursor:pointer;
+  padding:16px 18px;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  position:relative;
+}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{
+  content:"+";
+  font-family:'Archivo',sans-serif;
+  font-weight:600;
+  font-size:18px;
+  color:var(--teal-2);
+  flex:0 0 auto;
+  width:20px; text-align:center;
+  transition:transform .2s ease;
+  margin-left:auto;
+}
+.faq-item[open] summary::after{transform:rotate(45deg); color:var(--chlorine);}
+
+.q-num{
+  font-family:'Spline Sans Mono',monospace;
+  font-size:11px;
+  color:var(--ink-soft);
+  flex:0 0 auto;
+  padding-top:2px;
+  min-width:30px;
+}
+.q-text{
+  font-family:'Archivo',sans-serif;
+  font-weight:600;
+  font-size:15px;
+  line-height:1.4;
+  color:var(--ink);
+  flex:1;
+}
+mark{background:rgba(255,107,53,0.28); color:inherit; border-radius:2px;}
+
+.faq-body{
+  padding:0 18px 18px 64px;
+  font-size:14.5px;
+  line-height:1.65;
+  color:var(--ink-soft);
+}
+@media (max-width:560px){ .faq-body{padding-left:18px;} }
+
+.tag-row{display:flex; gap:8px; margin-top:12px; align-items:center;}
+.src-tag{
+  font-family:'Spline Sans Mono',monospace;
+  font-size:10.5px;
+  letter-spacing:.04em;
+  padding:3px 9px;
+  border-radius:20px;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+.src-tag.scp{background:rgba(127,184,196,0.22); color:#0F4C5C;}
+.src-tag.flu{background:rgba(255,107,53,0.16); color:#C44E1F;}
+.src-tag .dot{width:6px;height:6px;border-radius:50%;}
+.src-tag.scp .dot{background:#0F4C5C;}
+.src-tag.flu .dot{background:#FF6B35;}
+
+.empty-state{
+  text-align:center;
+  padding:60px 20px;
+  color:var(--ink-soft);
+}
+.empty-state .big{font-size:40px; margin-bottom:8px;}
+.empty-state p{font-family:'Spline Sans Mono',monospace; font-size:13px;}
+
+/* footer */
+footer{
+  background:var(--deep);
+  color:rgba(232,226,208,0.55);
+  padding:28px 5vw;
+  font-family:'Spline Sans Mono',monospace;
+  font-size:11.5px;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+  position:relative; z-index:1;
+}
+footer b{color:var(--sand);}
+
+/* focus visibility */
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible{
+  outline:2px solid var(--chlorine);
+  outline-offset:2px;
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-row">
+    <div>
+      <p class="eyebrow">Tehnička kartoteka &middot; Trgovački partneri</p>
+      <h1>Pitanja &amp; odgovori<br><em>iz katalogâ bazena i spa.</em></h1>
+      <p class="masthead-sub">Sažetak uvjeta poslovanja, jamstava, isporuke i tehničkih napomena iz katalogâ <b>SCP Adriatica</b> i <b>Fluidra Adriatic</b> &mdash; za brzu provjeru bez prelistavanja 850&nbsp;stranica.</p>
+    </div>
+    <div class="masthead-meta">
+      izvor: 2&nbsp;katalozi &middot; 2025<br>
+      stavki: <b>75</b><br>
+      kategorija: <b>13</b>
+    </div>
+  </div>
+  <div class="legend">
+    <span><i class="swatch scp"></i> SCP Adriatica &mdash; PoolCorp</span>
+    <span><i class="swatch flu"></i> Fluidra Adriatic &mdash; AstralPool / Zodiac</span>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="search-wrap">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0B2E33" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search" type="text" placeholder="Pretraži pitanja, npr. \u201cjamstvo\u201d, \u201cdostava\u201d\u2026" autocomplete="off">
+    </div>
+    <div class="src-filters" id="srcFilters">
+      <button class="src-pill active" data-src="all">Sve</button>
+      <button class="src-pill" data-src="SCP Adriatica">SCP</button>
+      <button class="src-pill" data-src="Fluidra Adriatic">Fluidra</button>
+    </div>
+    <div class="result-count" id="resultCount"></div>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="tab-rail" id="tabRail" aria-label="Kategorije">
+    <p class="tab-rail-title">Kategorije</p>
+    <button class="tab active" data-cat="all">Sve kategorije <span class="n">75</span></button>
+    <button class="tab" data-cat="O tvrtki">O tvrtki <span class="n">9</span></button>
+<button class="tab" data-cat="Narudžbe i isporuka">Narudžbe i isporuka <span class="n">12</span></button>
+<button class="tab" data-cat="Cijene i plaćanje">Cijene i plaćanje <span class="n">9</span></button>
+<button class="tab" data-cat="Jamstvo i reklamacije">Jamstvo i reklamacije <span class="n">9</span></button>
+<button class="tab" data-cat="Povrat robe">Povrat robe <span class="n">6</span></button>
+<button class="tab" data-cat="Tehnički podaci i odgovornost">Tehnički podaci i odgovornost <span class="n">3</span></button>
+<button class="tab" data-cat="Pravni okvir">Pravni okvir <span class="n">2</span></button>
+<button class="tab" data-cat="Wellness/SPA instalacija">Wellness/SPA instalacija <span class="n">6</span></button>
+<button class="tab" data-cat="Proizvodi i kategorije">Proizvodi i kategorije <span class="n">8</span></button>
+<button class="tab" data-cat="Pametna povezivost">Pametna povezivost <span class="n">4</span></button>
+<button class="tab" data-cat="Održivost i ekologija">Održivost i ekologija <span class="n">5</span></button>
+<button class="tab" data-cat="Instalacija bazena">Instalacija bazena <span class="n">1</span></button>
+<button class="tab" data-cat="Tehničke upute">Tehničke upute <span class="n">1</span></button>
+
+  </nav>
+
+  <main class="content">
+    <div class="section-head">
+      <h2 id="sectionTitle">Sve kategorije</h2>
+      <span class="count" id="sectionCount">75 stavki</span>
+    </div>
+    <div class="faq-list" id="faqList"></div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="big">&hellip;</div>
+      <p>NEMA REZULTATA ZA OVAJ UPIT</p>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <span>Generirano iz <b>KATALOG&nbsp;2025&nbsp;HR</b> (SCP Adriatica) i <b>Bazeni&nbsp;i&nbsp;Spa&nbsp;2025</b> (Fluidra Adriatic).</span>
+  <span>Samo za informativne / interne svrhe &middot; provjerite važeće uvjete kod dobavljača.</span>
+</footer>
+
+<script>
+const DATA = [{"id": 0, "cat": "O tvrtki", "src": "SCP Adriatica", "q": "Tko je SCP Adriatica i čime se bavi?", "a": "SCP Adriatica d.o.o. je dio SCP Europe / PoolCorp grupacije i bavi se distribucijom opreme za bazene, wellness i spa. Na hrvatskom tržištu posluje od 2017. godine, a distribucija je proširena i na Sloveniju, Bosnu i Hercegovinu, Srbiju i Crnu Goru."}, {"id": 1, "cat": "O tvrtki", "src": "SCP Adriatica", "q": "Gdje se nalazi sjedište i skladište SCP Adriatice?", "a": "Sjedište tvrtke je na adresi Avenija Marina Držića 4, 10000 Zagreb. Operativa i centralno skladište nalaze se u Limskoj 2a, 52448 Sveti Lovreč (Istra), otvoreno tijekom cijele godine."}, {"id": 2, "cat": "O tvrtki", "src": "SCP Adriatica", "q": "Kako mogu kontaktirati SCP Adriaticu?", "a": "Možete nazvati na +385 (0)52 451 314 ili poslati e-mail na prodaja@scppool.com. Katalog je dostupan i online na www.scpadriatica.hr."}, {"id": 3, "cat": "O tvrtki", "src": "SCP Adriatica", "q": "Je li SCP katalog dostupan i u digitalnom obliku?", "a": "Da, osim u printanom izdanju, SCP katalog je dostupan i u digitalnom formatu na web adresi www.scpadriatica.hr."}, {"id": 4, "cat": "O tvrtki", "src": "SCP Adriatica", "q": "Tko stoji iza SCP Europe i kolika je to organizacija?", "a": "SCP Europe je dio PoolCorpa, vodećeg svjetskog distributera opreme za bazene i spa, sa sjedištem u Louisiani (SAD), preko 5500 zaposlenika i 432 prodajna centra širom svijeta. SCP Europe je u Europi prisutan od 1998. godine, s 16 podružnica u 8 zemalja."}, {"id": 5, "cat": "O tvrtki", "src": "SCP Adriatica", "q": "Mogu li svi kupiti iz SCP kataloga?", "a": "Ne, prodaja je rezervirana isključivo za profesionalce u struci, a ne za krajnje potrošače."}, {"id": 6, "cat": "O tvrtki", "src": "Fluidra Adriatic", "q": "Tko je Fluidra i koje marke proizvoda zastupa?", "a": "Fluidra je jedan od svjetskih predvodnika bazenske industrije s renomiranim markama kao AstralPool, Zodiac, Cepex, CTX, Polaris, Professional, Gre i Jandy. Tvrtka ima preko 6.400 zaposlenika u više od 45 zemalja."}, {"id": 7, "cat": "O tvrtki", "src": "Fluidra Adriatic", "q": "Gdje se nalaze poslovne jedinice Fluidra Adriatic u Hrvatskoj?", "a": "Fluidra Adriatic ima centralu i poslovnu jedinicu u Zagrebu (Vučak 38), te poslovne jedinice u Splitu (Ulica Svetog Duje 6, Dugopolje) i Puli (Poduzetnička zona 28, Galižana)."}, {"id": 8, "cat": "O tvrtki", "src": "Fluidra Adriatic", "q": "Kako mogu kontaktirati Fluidra Adriatic?", "a": "Sve lokacije (Zagreb, Split, Pula) dostupne su na broj +385 1 7988 790, a e-mail je info_HR@fluidra.com."}, {"id": 9, "cat": "Narudžbe i isporuka", "src": "Fluidra Adriatic", "q": "Kako se naručuje roba kod Fluidra Adriatica?", "a": "Upiti i narudžbe primaju se isključivo putem e-maila prodajnom predstavniku ili na info_HR@fluidra.com, te telefonskim pozivom/porukom. Prednost imaju upiti i narudžbe pristigle e-mailom."}, {"id": 10, "cat": "Narudžbe i isporuka", "src": "Fluidra Adriatic", "q": "Koliko brzo se obrađuju narudžbe kod Fluidra Adriatica?", "a": "Standardne narudžbe obrađuju se u roku 24-48 sati, a za složenije tehničke upite ili pribavljanje atestne dokumentacije rok je 7-10 dana."}, {"id": 11, "cat": "Narudžbe i isporuka", "src": "Fluidra Adriatic", "q": "Do kada treba naručiti da bi roba stigla idući radni dan?", "a": "Narudžbe zaprimljene do 11h šalju se isti dan, a isporuka se može očekivati do kraja idućeg radnog dana. Za gabaritnije ili paletne narudžbe isporuka može trajati 2-3 radna dana."}, {"id": 12, "cat": "Narudžbe i isporuka", "src": "Fluidra Adriatic", "q": "Mogu li robu preuzeti osobno na skladištu Fluidra Adriatica?", "a": "Da, narudžbe za preuzimanje na skladištu (Zagreb, Pula, Split) spremne su za preuzimanje minimalno 2 sata nakon primitka i potvrde obrade narudžbe. Dolazak bez prethodne najave naplaćuje se dodatnih 40,00 € bez PDV-a za žurnu obradu."}, {"id": 13, "cat": "Narudžbe i isporuka", "src": "Fluidra Adriatic", "q": "Koje je radno vrijeme ureda i skladišta Fluidra Adriatica?", "a": "Radno vrijeme ureda i skladišta je od 8 do 16 sati, od ponedjeljka do petka."}, {"id": 14, "cat": "Narudžbe i isporuka", "src": "Fluidra Adriatic", "q": "Koliko dugo imam vremena preuzeti naručenu i pripremljenu robu?", "a": "Naručenu i pripremljenu robu potrebno je preuzeti u roku od najviše 10 dana od primitka obavijesti. U protivnom se obračunava trošak ležarine i skladištenja."}, {"id": 15, "cat": "Narudžbe i isporuka", "src": "Fluidra Adriatic", "q": "Postoji li minimalna vrijednost narudžbe?", "a": "Da, minimalna narudžba po isporuci/fakturi iznosi 80,00 € bez PDV-a i primjenjuje se na sve kupce, osim Premium partnera, Official Shop i web E-partnera."}, {"id": 16, "cat": "Narudžbe i isporuka", "src": "Fluidra Adriatic", "q": "Koliko košta transport narudžbe?", "a": "Minimalan trošak transporta iznosi 8,00 € bez PDV-a, bez obzira na veličinu pošiljke. Za narudžbe preko 5.000,00 € bez PDV-a transport ide na trošak Fluidra Adriatica (uz iznimku narudžbi koje sadrže samo gabaritnu robu kao pijesak, sol, cijevi i sl.)."}, {"id": 17, "cat": "Narudžbe i isporuka", "src": "SCP Adriatica", "q": "Kako se šalju narudžbe kod SCP Adriatice?", "a": "Narudžbe se šalju isključivo u pisanom obliku i moraju biti u skladu s referencama i opisima iz kataloga. Sve narudžbe moraju biti potvrđene u pisanom obliku od strane SCP Adriatice."}, {"id": 18, "cat": "Narudžbe i isporuka", "src": "SCP Adriatica", "q": "Mogu li otkazati narudžbu kod SCP Adriatice?", "a": "Primljene narudžbe smatraju se neopozivima te zahtijevaju da se kupac pridržava Općih uvjeta prodaje."}, {"id": 19, "cat": "Narudžbe i isporuka", "src": "SCP Adriatica", "q": "Koliko dugo imam za preuzeti naručenu robu kod SCP Adriatice?", "a": "Proizvodi moraju biti preuzeti najkasnije petnaest dana od dana kada su spremni za otpremu. Ako se ne preuzmu u tom roku, kupac je odgovoran za troškove skladištenja i upravljanja robom."}, {"id": 20, "cat": "Narudžbe i isporuka", "src": "SCP Adriatica", "q": "Tko snosi rizik i troškove prijevoza kod SCP Adriatice?", "a": "Troškove prijevoza i rizike vezane uz oštećenje robe tijekom prijevoza isključivo snosi kupac, čak i kada SCP Adriatica plaća prijevoz po fakturi. Osiguranje prijevoza moguće je na posebni zahtjev kupca, a trošak osiguranja snosi kupac."}, {"id": 21, "cat": "Cijene i plaćanje", "src": "SCP Adriatica", "q": "Jesu li cijene u SCP katalogu s PDV-om?", "a": "Ne, sve cijene u katalogu su izražene kao 'franko skladište SCP Adriatica u Svetom Lovreču', bez uključenog PDV-a."}, {"id": 22, "cat": "Cijene i plaćanje", "src": "SCP Adriatica", "q": "Mogu li se cijene iz kataloga promijeniti?", "a": "Da, SCP Adriatica zadržava pravo izmjene cjenika po vlastitom nahođenju, u odnosu na tržišne uvjete."}, {"id": 23, "cat": "Cijene i plaćanje", "src": "SCP Adriatica", "q": "Što se događa ako ne platim račun na vrijeme kod SCP Adriatice?", "a": "Kupac snosi sve naknade i troškove vezane uz neplaćena dugovanja, plus zakonski obračunate kamate. SCP Adriatica može obustaviti jamstvo i isporuke u slučaju dugovanja."}, {"id": 24, "cat": "Cijene i plaćanje", "src": "SCP Adriatica", "q": "Mogu li dobiti popust ili odgodu plaćanja nakon izdavanja fakture?", "a": "Ne, nakon izdavanja fakture SCP Adriatica ne prihvaća promjenu ili odgodu plaćanja, osim ako je to izričito prethodno pisano dogovoreno."}, {"id": 25, "cat": "Cijene i plaćanje", "src": "SCP Adriatica", "q": "Do kada mogu uložiti prigovor na fakturu?", "a": "Sve primjedbe na izdane fakture moraju biti dostavljene u pisanom obliku u roku od osam dana od primitka fakture. Nakon toga faktura se smatra prihvaćenom i kupac gubi pravo prigovora."}, {"id": 26, "cat": "Cijene i plaćanje", "src": "SCP Adriatica", "q": "Koja kamatna stopa se primjenjuje na kašnjenje plaćanja kod SCP Adriatice?", "a": "U slučaju kašnjenja plaćanja obračunava se zatezna kamata po stopi od 5%, koja se primjenjuje od dana dospijeća."}, {"id": 27, "cat": "Cijene i plaćanje", "src": "SCP Adriatica", "q": "Ostaje li proizvod u vlasništvu dobavljača do isplate?", "a": "Da, prema članku o pridržanom pravu vlasništva, proizvodi ostaju vlasništvo SCP Adriatice do potpune isplate cijene, čak i ako su već instalirani."}, {"id": 28, "cat": "Cijene i plaćanje", "src": "Fluidra Adriatic", "q": "Jesu li cijene u Fluidra katalogu konačne i s PDV-om?", "a": "Ne, prikazane cijene su veleprodajne (kataloške) cijene u eurima, bez PDV-a, i mogu se promijeniti u bilo kojem trenutku bez prethodne najave."}, {"id": 29, "cat": "Cijene i plaćanje", "src": "Fluidra Adriatic", "q": "Jesu li količine i pakiranja u katalogu obvezujući podaci?", "a": "Ne, sve količine i pakiranja navedena u katalogu su samo informativne prirode."}, {"id": 30, "cat": "Jamstvo i reklamacije", "src": "SCP Adriatica", "q": "Koliko traje jamstvo na proizvode kod SCP Adriatice?", "a": "Ukoliko nije drugačije dogovoreno, jamstvo je ograničeno na zamjenu materijala koji je prepoznat kao neispravan zbog grešaka u materijalu ili izradi, otkrivenih u roku od jedne godine od isporuke."}, {"id": 31, "cat": "Jamstvo i reklamacije", "src": "SCP Adriatica", "q": "Pokriva li jamstvo troškove rada, prijevoza ili dopreme vode?", "a": "Ne, SCP Adriatica ne daje jamstvo na dodatne troškove kao što su prijevoz, rad, isporuka vode, naknada štete i slično."}, {"id": 32, "cat": "Jamstvo i reklamacije", "src": "SCP Adriatica", "q": "Kada jamstvo postaje nevažeće?", "a": "Jamstvo je nevažeće ako su proizvodi izloženi manipulaciji, popravljanju ili modificiranju izvan SCP Adriatice, servisirani neprikladnim materijalima/procesima, ili korišteni nepravilno odnosno neprikladno."}, {"id": 33, "cat": "Jamstvo i reklamacije", "src": "SCP Adriatica", "q": "Do kada mogu prijaviti pritužbu na primljenu robu?", "a": "SCP Adriatica ne prihvaća nikakve tvrdnje formulirane osam dana nakon primitka proizvoda. Pritužbe na količinu i kvalitetu moraju biti potvrđene posebnim napomenama na prijevoznim dokumentima u trenutku isporuke."}, {"id": 34, "cat": "Jamstvo i reklamacije", "src": "Fluidra Adriatic", "q": "Kako prijaviti reklamaciju kod Fluidra Adriatica?", "a": "Reklamacije se prijavljuju isključivo putem e-maila helpdesk_HR@fluidra.com, slanjem svih potrebnih podataka i popunjavanjem Reklamacijskog zapisnika. Opis problema 'ne radi' nije prihvatljiv – potreban je detaljan opis stvarnog kvara."}, {"id": 35, "cat": "Jamstvo i reklamacije", "src": "Fluidra Adriatic", "q": "Obrađuju li se nenajavljene reklamacije kod Fluidra Adriatica?", "a": "Ne, nenajavljene reklamacije se ne obrađuju."}, {"id": 36, "cat": "Jamstvo i reklamacije", "src": "Fluidra Adriatic", "q": "U kojem roku treba prijaviti reklamaciju vezanu uz dostavu ili količinu?", "a": "Reklamacije vezane uz dostavu ili količinu isporučene robe potrebno je prijaviti unutar 24 sata od primitka pošiljke."}, {"id": 37, "cat": "Jamstvo i reklamacije", "src": "Fluidra Adriatic", "q": "U kojim slučajevima gubim jamstvena prava kod Fluidra Adriatica?", "a": "Jamstvena prava se gube u slučaju: mehaničkog oštećenja krivnjom kupca, nepravilne uporabe ili spajanja proizvoda, neovlaštenog rastavljanja, oštećenja uzrokovanih agresivnom okolinom ili vremenskim nepogodama, nezadovoljstva zbog pogrešno odabranog proizvoda, primjene s tehnički nesukladnim proizvodima, te loše održavanog ili nestručno korištenog proizvoda."}, {"id": 38, "cat": "Jamstvo i reklamacije", "src": "Fluidra Adriatic", "q": "Gdje mogu servisirati uređaj izvan jamstvenog roka?", "a": "Servis izvan jamstvenog roka dogovara se izravno s ovlaštenim serviserima, čiji kontakt možete zatražiti putem e-maila helpdesk_HR@fluidra.com."}, {"id": 39, "cat": "Povrat robe", "src": "SCP Adriatica", "q": "Mogu li vratiti robu SCP Adriatici po svojoj volji?", "a": "Ne, povrat se ne može izvršiti ako nije prethodno registriran i ovjeren u pisanom obliku od strane SCP Adriatice."}, {"id": 40, "cat": "Povrat robe", "src": "SCP Adriatica", "q": "Što je potrebno za povrat robe SCP Adriatici?", "a": "Materijal mora biti popraćen ispravno popunjenim dostavnim dokumentom, računom na koji se poziva i ovjerenim obrascem za povrat robe. Materijal mora biti sačuvan u originalnoj ambalaži, a troškove povratnog transporta snosi kupac."}, {"id": 41, "cat": "Povrat robe", "src": "Fluidra Adriatic", "q": "Kako se najavljuje povrat robe kod Fluidra Adriatica?", "a": "Zahtjev za povrat može se najaviti samo putem e-maila prodajnom predstavniku ili na info_HR@fluidra.com. Nenajavljeni povrati se ne obrađuju niti prihvaćaju."}, {"id": 42, "cat": "Povrat robe", "src": "Fluidra Adriatic", "q": "Koji su uvjeti da bi se povrat robe prihvatio kod Fluidra Adriatica?", "a": "Vraćena roba mora biti neoštećena, kompletirana, u izvornom pakiranju i s kopijom kupovne dokumentacije (račun ili otpremnica)."}, {"id": 43, "cat": "Povrat robe", "src": "Fluidra Adriatic", "q": "Naplaćuje li se naknada na povrat robe kod Fluidra Adriatica?", "a": "Nakon provjere vraćene robe, Fluidra Adriatic stornira stavke uz zadržavanje 10% iznosa za manipulativne i administrativne troškove. Ako se povrat izvrši u roku do 14 dana od isporuke, dodatni troškovi se ne obračunavaju."}, {"id": 44, "cat": "Povrat robe", "src": "Fluidra Adriatic", "q": "U kojim slučajevima se povrat robe NE može prihvatiti kod Fluidra Adriatica?", "a": "Povrat se ne prihvaća ako: roba nije lager roba već posebno naručena, ne postoji kupovna dokumentacija, proizvod se ne može prodati kao nov, proizvod je isporučen prije više od 3 mjeseca, ili proizvod nije u potpunosti kompletiran (uključujući upute i pribor)."}, {"id": 45, "cat": "Tehnički podaci i odgovornost", "src": "SCP Adriatica", "q": "Jesu li slike i tehnički podaci u katalogu obvezujući?", "a": "Ne, tehnički podaci, opisi, slike i dijagrami u katalogu su samo indikativni, osim ako nije posebno potvrđeno. SCP Adriatica nije odgovorna za odstupanja između onoga što je prikazano u katalogu i primljenog proizvoda."}, {"id": 46, "cat": "Tehnički podaci i odgovornost", "src": "SCP Adriatica", "q": "Može li proizvođač promijeniti proizvod bez prethodne obavijesti?", "a": "Da, proizvođač može napraviti izmjene na proizvodu u odnosu na cijenu, oblik ili materijale, a SCP Adriatica nije odgovorna za takve promjene ako o njima nije izvijestila kupca."}, {"id": 47, "cat": "Tehnički podaci i odgovornost", "src": "Fluidra Adriatic", "q": "Tko je odgovoran za pogreške u prikazu slika, podataka ili cijena u katalogu?", "a": "Fluidra Adriatic ne prihvaća pravnu odgovornost niti zahtjeve koji proizlaze iz eventualnih pogrešaka u prikazu slika, tehničkih podataka ili cijena u katalogu."}, {"id": 48, "cat": "Pravni okvir", "src": "SCP Adriatica", "q": "Koji se sud koristi u slučaju spora s SCP Adriaticom?", "a": "Stranke se obvezuju riješiti sporove mirnim putem, a za bilo kakav pravni spor isključivu nadležnost ima sud u Zagrebu."}, {"id": 49, "cat": "Pravni okvir", "src": "SCP Adriatica", "q": "Kako SCP Adriatica štiti osobne podatke kupaca?", "a": "SCP Adriatica jamči da će sve prikupljene podatke kupaca čuvati u skladu s GDPR-om (Općom uredbom o zaštiti osobnih podataka), prema europskoj regulativi br. 679/2016. Podaci se ne prenose izvan poslovnih aktivnosti tvrtke."}, {"id": 50, "cat": "Wellness/SPA instalacija", "src": "SCP Adriatica", "q": "Gdje je najbolje postaviti prijenosni hidromasažni bazen (SPA)?", "a": "Vani: u blizini kućnih vrata, ispod trijema ili na otvorenom. Unutra: potrebno je osigurati ventilaciju i odvlaživač zraka, te izbjegavati spavaću sobu. Podna obloga mora biti otporna na vlagu i protuklizna, a zidne obloge gipsane ploče klase EC za vrlo vlažne prostore."}, {"id": 51, "cat": "Wellness/SPA instalacija", "src": "SCP Adriatica", "q": "Što treba provjeriti prilikom posjeta lokaciji za instalaciju spa bazena?", "a": "Treba provjeriti pristup kamiona, potrebu za opremom za podizanje, dovoljnost električnog brojila, duljinu kabela, usklađenost s električnim pravilima (NFC15-100) i uvjete potpore odnosno pripremne radove."}, {"id": 52, "cat": "Wellness/SPA instalacija", "src": "SCP Adriatica", "q": "Kakva podloga je potrebna za prijenosni hidromasažni bazen?", "a": "Potrebna je armirano betonska ploča debljine 8 do 10 cm s 40 mm plaštem. Za spa bazene na balkonima ili krovnim terasama potrebna je statička studija specijaliziranog građevinskog ureda."}, {"id": 53, "cat": "Wellness/SPA instalacija", "src": "SCP Adriatica", "q": "Može li se prijenosni spa bazen ugraditi (utopiti) u tlo ili terasu?", "a": "Nadzemni spa nije predviđen za ugradnju. Ako se mora ugraditi, treba: ostaviti ga da strši cca 40 cm iznad poda, postaviti na dreniranu podlogu spojenu na odvod kišnice ili osigurati pumpu za isisavanje vode, periferni prolaz od minimalno 80 cm i odvojiv završetak terase. SCP i proizvođači ne odgovaraju za troškove izvlačenja ugrađenog bazena, čak ni u jamstvenom roku."}, {"id": 54, "cat": "Wellness/SPA instalacija", "src": "SCP Adriatica", "q": "Kakva električna zaštita je potrebna za hidromasažni bazen?", "a": "Potreban je 1 diferencijalni prekidač od 30 mA na čelu linije hidromasažnog bazena i 1 prekidač od 16, 25 ili 32 A (mono ili tri-fazni), ovisno o modelu spa bazena."}, {"id": 55, "cat": "Wellness/SPA instalacija", "src": "SCP Adriatica", "q": "Što treba pripremiti na dan isporuke hidromasažnog bazena?", "a": "Potrebno je osigurati osoblje, trake i kolica s kotačima za prijenos, prikupiti svu dokumentaciju iz pakiranja ili tehničkog prostora, te zabilježiti serijski broj proizvoda u upute i na račun."}, {"id": 56, "cat": "Proizvodi i kategorije", "src": "SCP Adriatica", "q": "Koje glavne kategorije proizvoda nudi SCP katalog?", "a": "SCP katalog obuhvaća kategorije: Wellness (spa, saune), Cijevna instalacija, Ugradbena oprema/Hidroterapija, Nadzemni bazeni/Paneli, Filtracija, Javni bazeni, Oprema za bazene, Čišćenje i održavanje, Grijanje i odvlaživanje, Prekrivanje bazena, Rubni kamen i Opće odredbe poslovanja."}, {"id": 57, "cat": "Proizvodi i kategorije", "src": "SCP Adriatica", "q": "Što sve obuhvaća poglavlje Wellness u SCP katalogu?", "a": "Poglavlje Wellness obuhvaća: preduvjete instalacije hidromasažnih bazena, SPA modele (Wellis, Garden Leisure, Cove), pergole, kabine za finske i infracrvene saune, vanjske saune, generatore pare, parne kupelji, emocionalne tuševe i Kneipp stazu."}, {"id": 58, "cat": "Proizvodi i kategorije", "src": "SCP Adriatica", "q": "Što obuhvaća poglavlje Filtracija u SCP katalogu?", "a": "Obuhvaća pješčane filtere, višeputne ventile, Multicyclone predfiltere, monoblok sustave filtracije, filtracijske pumpe (uključujući varijabilne), filtracijske blokove Filtrinov, varijabilne upravljačke jedinice, elektroupravljačke ormare i automatizaciju bazena."}, {"id": 59, "cat": "Proizvodi i kategorije", "src": "SCP Adriatica", "q": "Što obuhvaća poglavlje Javni bazeni?", "a": "Obuhvaća filtere i pumpe za javne bazene, liftere za invalidne osobe, solne klorinatore, UV sterilizaciju, tretiranje vode ozonom i opremu za natjecateljske bazene."}, {"id": 60, "cat": "Proizvodi i kategorije", "src": "SCP Adriatica", "q": "Koje su novosti u SCP katalogu za 2025. godinu?", "a": "Novosti za 2025. uključuju: Swim Spa Amazonas Grand Prix, pergole Garden Leisure, vanjske saune Alpina, Virax alate i opremu za profesionalce, skimmer X-Pro 600 Hayward, reflektor MID BRIO, protustrujno plivanje VISA, drvene bazene-setove s opremom, Multicyclone predfiltere i filtracijske blokove Filtrinov."}, {"id": 61, "cat": "Proizvodi i kategorije", "src": "Fluidra Adriatic", "q": "Koje glavne kategorije proizvoda nudi Fluidra Adriatic katalog?", "a": "Katalog je podijeljen na kategorije: Bazensko okruženje, Bazenska školjka, Filtracija, Pumpe, Tretman bazenske vode, Oprema za tretiranje, Oprema za čišćenje, Rasvjeta, Folije za bazene, Prekrivači i namotači, PVC oprema, Bazeni, Spa i saune, Odvlaživanje, Grijanje i Fluidra projekti."}, {"id": 62, "cat": "Proizvodi i kategorije", "src": "Fluidra Adriatic", "q": "Koje su novosti u Fluidra katalogu za 2025. godinu?", "a": "Novosti uključuju: dvodjelne ljestve s Plascoat tehnologijom, Gavarnie solarni tuš, Lumiplus Connect i Plug&Play rasvjetu, Ei2 iQ, eXO iQ i eXO iQ LS pametne kontrole bazena, Pixel OP 32 i Freerider RF 42 iQ robotske čistače te toplinsku pumpu Z650iQ."}, {"id": 63, "cat": "Proizvodi i kategorije", "src": "Fluidra Adriatic", "q": "Koje su marke proizvoda zastupljene u Fluidra katalogu?", "a": "Katalog zastupa marke AstralPool, Zodiac, Cepex, CTX, Polaris, Professional, Gre i Jandy."}, {"id": 64, "cat": "Pametna povezivost", "src": "Fluidra Adriatic", "q": "Što je iQBridge RS i čemu služi?", "a": "iQBridge RS je Wi-Fi modul koji omogućuje daljinsku kontrolu bazenske opreme (toplinske pumpe, elektrolize) putem aplikacije 'Fluidra Pool'. Instalacija je plug & play putem vodonepropusnog adaptera, a uparivanje s aplikacijom traje manje od minute."}, {"id": 65, "cat": "Pametna povezivost", "src": "Fluidra Adriatic", "q": "Koje su tehničke karakteristike iQBridge RS modula?", "a": "Napaja se preko povezanog uređaja, ima kabel dužine 1 m, uparuje se Bluetoothom, povezuje se na Wi-Fi 2.4 GHz mreži s dosegom do 90 m bez fizičkih zapreka, razina zaštite je IPX5, težina 0,2 kg, a dimenzije 10x10x3 cm."}, {"id": 66, "cat": "Pametna povezivost", "src": "Fluidra Adriatic", "q": "Koje aplikacije koriste Fluidra uređaji za daljinsko upravljanje?", "a": "Uređaji koriste aplikaciju 'Fluidra Pool' (ili oznaku 'iAquaLink+ compatible'), dostupnu za Android i Apple mobilne telefone, koju je potrebno preuzeti iz odgovarajuće trgovine aplikacija."}, {"id": 67, "cat": "Pametna povezivost", "src": "Fluidra Adriatic", "q": "Koji su Fluidra uređaji kompatibilni s pametnom kontrolom bazena?", "a": "Kompatibilni su uređaji za kontrolu bazena (Command Connect, Smart Plug), kontrolu rasvjete (LumiPlus Connect), VS pumpe (Verdon VS, E30iQ, Z250iQ/PX25, Z260iQ/PX26), toplinske pumpe (Eco Elyo, Pro Elyo Touch, Evoline, Z350iQ, Z550iQ, PM40, PX50, HPO) i elektrolize (Energy Connect, Clear Connect, Smart Next, Nova Elite Connect, Neolysis Connect, Nova Control Connect, eXPERT)."}, {"id": 68, "cat": "Održivost i ekologija", "src": "Fluidra Adriatic", "q": "Što znači 'održivi bazen' prema Fluidra katalogu?", "a": "Održivi bazen je onaj koji značajno smanjuje potrošnju resursa (vode, energije, kemikalija) te je dugoročno isplativiji u pogledu troškova održavanja i povrata investicije. Fluidra ovo postiže putem 5 stupova: štednja vode, energetska učinkovitost, smanjenje kemikalija, smanjenje karbonskog otiska i kružna održivost (Water, Energy, Chemical, Carbon, Circular)."}, {"id": 69, "cat": "Održivost i ekologija", "src": "Fluidra Adriatic", "q": "Koliko vode štedi prekrivač za bazen?", "a": "Prekrivač sprječava do 90% gubitka vode uslijed isparavanja, čime se štedi do 4.000 litara vode mjesečno (izračun za bazen dimenzija 8x4 m)."}, {"id": 70, "cat": "Održivost i ekologija", "src": "Fluidra Adriatic", "q": "Koliko su učinkovitije varijabilne (VS) pumpe od klasičnih?", "a": "Varijabilne pumpe su do 60% učinkovitije od klasične pumpe, čime se štedi više od 700 kWh godišnje (prosjek za bazen od 50 m³ sa sezonom kupanja od šest mjeseci, u usporedbi s klasičnom pumpom od 1 HP)."}, {"id": 71, "cat": "Održivost i ekologija", "src": "Fluidra Adriatic", "q": "Koliko klora se uštedi ugradnjom elektrolize?", "a": "Ugradnjom elektrolize potreba za kemikalijama za dezinfekciju smanjuje se i do 100% u normalnim uvjetima, jer uređaj proizvodi klor iz male količine soli dodane bazenu. Kemikalije za balans vode ili šok tretman mogu i dalje biti potrebne."}, {"id": 72, "cat": "Održivost i ekologija", "src": "Fluidra Adriatic", "q": "Zašto su kartuša filteri ekološki povoljniji od klasičnih filtera?", "a": "Kartuša filteri ne zahtijevaju povratno ispiranje ('backwash'), pa se u usporedbi s klasičnim filterima punjenim pijeskom/staklom štedi više od 600 litara vode po ciklusu čišćenja (za bazen od 50 m³ s filtracijom 14 m³/h)."}, {"id": 73, "cat": "Instalacija bazena", "src": "Fluidra Adriatic", "q": "Koje su glavne komponente opće instalacije bazenske opreme?", "a": "Glavne komponente su: filter, pumpa, višeputni ventil, skimer, regulator razine vode, povratna mlaznica, ljestve, rasvjeta, električni upravljački ormar, hydrospin, izmjenjivač topline, dozator klora, automatski prekrivač, sigurnosne ograde i školjka bazena."}, {"id": 74, "cat": "Tehničke upute", "src": "SCP Adriatica", "q": "Kako se uzimaju mjere za izradu obloga, prekrivača i rubnog kamena na bazenima slobodnih formi?", "a": "Postupak ima 4 koraka: (1) na cca 2 m od bazena fiksirati dvije referentne točke A i B čija je udaljenost veća od dužine bazena, (2) označiti numerirane točke na svakih pola metra po unutarnjem rubu bazena, (3) izmjeriti udaljenost svake točke ruba od točaka A i B, (4) upisati dobivene mjere u tablicu."}];
+
+const SRC_CLASS = { "SCP Adriatica":"scp", "Fluidra Adriatic":"flu" };
+const SRC_SHORT = { "SCP Adriatica":"SCP Adriatica", "Fluidra Adriatic":"Fluidra Adriatic" };
+
+let state = { cat:'all', src:'all', q:'' };
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function highlight(text, q){
+  if(!q) return escapeHtml(text);
+  const esc = escapeHtml(text);
+  const safeQ = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(safeQ, 'ig');
+  return esc.replace(re, m => '<mark>'+m+'</mark>');
+}
+
+function matches(item){
+  if(state.cat !== 'all' && item.cat !== state.cat) return false;
+  if(state.src !== 'all' && item.src !== state.src) return false;
+  if(state.q){
+    const hay = (item.q + ' ' + item.a).toLowerCase();
+    if(!hay.includes(state.q.toLowerCase())) return false;
+  }
+  return true;
+}
+
+function render(){
+  const list = document.getElementById('faqList');
+  const empty = document.getElementById('emptyState');
+  const filtered = DATA.filter(matches);
+
+  document.getElementById('resultCount').innerHTML = state.q
+    ? '<b>'+filtered.length+'</b> / '+DATA.length+' rezultata'
+    : '';
+
+  document.getElementById('sectionTitle').textContent = state.cat === 'all' ? 'Sve kategorije' : state.cat;
+  document.getElementById('sectionCount').textContent = filtered.length + (filtered.length===1 ? ' stavka' : ' stavki');
+
+  if(filtered.length === 0){
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  list.innerHTML = filtered.map((item, idx) => {
+    const num = String(idx+1).padStart(2,'0');
+    const srcClass = SRC_CLASS[item.src] || 'scp';
+    return `
+    <details class="faq-item" data-id="${item.id}">
+      <summary>
+        <span class="q-num">${num}</span>
+        <span class="q-text">${highlight(item.q, state.q)}</span>
+      </summary>
+      <div class="faq-body">
+        <div>${highlight(item.a, state.q)}</div>
+        <div class="tag-row">
+          <span class="src-tag ${srcClass}"><i class="dot"></i>${SRC_SHORT[item.src] || item.src}</span>
+          <span class="src-tag" style="background:rgba(11,46,51,0.06); color:#3F5C61;">${escapeHtml(item.cat)}</span>
+        </div>
+      </div>
+    </details>`;
+  }).join('');
+}
+
+// tab rail clicks
+document.getElementById('tabRail').addEventListener('click', e => {
+  const btn = e.target.closest('.tab');
+  if(!btn) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  state.cat = btn.dataset.cat;
+  render();
+});
+
+// source pills
+document.getElementById('srcFilters').addEventListener('click', e => {
+  const btn = e.target.closest('.src-pill');
+  if(!btn) return;
+  document.querySelectorAll('.src-pill').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  state.src = btn.dataset.src;
+  render();
+});
+
+// search
+let debounce;
+document.getElementById('search').addEventListener('input', e => {
+  clearTimeout(debounce);
+  const val = e.target.value.trim();
+  debounce = setTimeout(() => { state.q = val; render(); }, 80);
+});
+
+render();
+</script>
+</body>
+</html>
